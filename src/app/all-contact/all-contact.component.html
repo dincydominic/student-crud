@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="row">
+        <div class="col ">
+            <h1 style="text-align: center;color: blue;"><i class="fa-solid fa-graduation-cap fa-beat"></i>  STUDENET INFORMATIONS  <i class="fa-solid fa-graduation-cap fa-beat"></i> 
+              </h1>
+              <!--built in pipe access using angular-->
+               <!-- <p class="mt-3">  {{todaydate | date:'shortDate'}}</p>-->
+                <!--content-->
+          <!--  <p class="mt-5"style="text-align: justify;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro quidem tempore quod impedit, quisquam iste numquam accusantium quos error, praesentium cum sunt facilis neque minus voluptatum, nemo dolorem cumque recusandae.</p>-->
+            <div class="row mt-5 ms-2">
+                <div class="col-lg-2 fw-bolder text-primary">
+                    Search Student:
+                </div>
+
+
+                <div class="col-lg-6">
+                  <input [(ngModel)]="searchkey"placeholder="type contact name!"type="text"class="form-control me-auto">
+                    </div>
+
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="text-center mt-5">
+    <a  class="btn btn-primary ms-5 "routerLink="add-contact"><i class="fa-solid fa-user-plus"></i>Create Student</a>
+</div>
+
+<!--loading spinner from bootstrap-->
+<div *ngIf="isLoading && allcontacts.length==0" class="text-center">
+    <div class="spinner-border text-primary mt-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+</div>
+<!--if no contact match no valid-->
+
+<div *ngIf="(allcontacts | filter :searchkey :'name').length==0 &&  !isLoading">
+    <h3 style="text-align: center;margin-top: 20px;">No Contact Found</h3>
+</div>
+
+<!--error msg-->
+<div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+    {{errorMsg}}
+  </div>
+<!--contact card design-->
+<div class="container mt-5">
+    <div *ngIf="!isLoading && allcontacts.length>0"class="row">
+        <div class="col-lg-6 mb-3" *ngFor="let contact of allcontacts  | filter : searchkey:'name' ">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        
+                        <div class="col-sm-8">
+                            <!--contentt-->
+                            <table class="table table-striped">
+                                <li class="list-group-item"><b>Student ID:</b><span class="fw-bold">{{contact.id}}</span></li>
+                                <li class="list-group-item"><b>Student Name:</b><span class="fw-bold">{{contact.name}}</span></li>
+                                <li class="list-group-item"><b>Student Email:</b><span class="fw-bold">{{contact.email}}</span></li>
+                            </table>
+                        </div>
+
+                    
+                        <div class="col-sm-3 text-center">
+                            <!--image-->
+                            
+                            <img class="w-75 img-circle"[src]="contact.photo"alt="user image">
+                        </div>
+                        <div class="col-sm-1 d-flex flex-column justify-content-center align-items-center ">
+                            <!--action-->
+                            <!--view-->
+                            <a  class="btn btn-outline-warning text-light mb-1"routerLink="view-contact/{{contact.id}}"><i class="fa-solid fa-eye fa-flip" style="color: #0b0c0f;"></i></a>
+                            <a  class="btn btn-outline-success text-light mb-1"routerLink="edit-contact/{{contact.id}}"><i class="fa-solid fa-pen fa-flip" style="color: #0b0c0f;"></i></a>
+                            <button (click)="deleteContact(contact.id)"class="btn btn-outline-danger text-light mb-1"><i class="fa-solid fa-trash fa-flip" style="color: #0b0c0f;"></i></button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
